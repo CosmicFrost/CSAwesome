@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.io.*;
 
@@ -164,6 +165,108 @@ public class Review {
     }
   }
 
+ public static String fakeReview(String filename)
+ {
+   String generateFakeReview = textToString(filename);
+   int wordCount = totalWords(generateFakeReview);
+   String[] words = new String[wordCount];
+   String[] newWords = new String[wordCount];
+
+// for (int i = 0; i < wordCount; i++)
+// {
+
+  // System.out.println(generateFakeReview);
+  // System.out.println(wordCount);
+
+  Scanner inputFile = new Scanner(generateFakeReview);
+
+  while (inputFile.hasNextLine())
+  {
+   String currentLine = inputFile.nextLine();
+   
+   words = currentLine.split(" ");
+   
+  }
+  inputFile.close();
+
+// }
+// System.out.println("This is in words");
+// for (int i = 0; i < words.length; i++)
+// {
+//   System.out.println(words[i]);
+// }
+
+
+String newReview ="";
+for (int i = 0; i < wordCount; i++)
+
+ if (words[i].contains("*"))
+ {
+   System.out.println(words[i]);
+   if (i % 2 == 0)
+   {
+     newWords[i] = randomPositiveAdj();
+
+   }
+   else
+   {
+     newWords[i] = randomNegativeAdj();
+   }
+ }
+ else 
+ {
+  newWords[i] = words[i];
+ }
+
+
+//  System.out.println("This is in new words");
+// for (int i = 0; i < newWords.length; i++)
+// {
+//   System.out.println(newWords[i]);
+// }
+
+newReview = String.join(" ", newWords);
+
+
+return newReview;
+
+ }
+
+
+ public static int totalWords(String filename)
+  {
+    // read in the file contents into a string using the textToString method with the filename
+
+    // set up a sentimentTotal variable
+    int wordCount = 0;
+
+    // loop through the file contents 
+
+       // find each word
+       // add in its sentimentVal
+       // set the file contents to start after this word
+
+       Scanner inputFile = new Scanner(filename);
+
+       while (inputFile.hasNextLine())
+       {
+        String currentLine = inputFile.nextLine();
+        String[] words = currentLine.split(" ");
+        
+        for (String a: words)
+      
+        {
+
+          wordCount +=1;
+        }
+        
+       }
+
+       inputFile.close();
+    
+   return wordCount; 
+  }
+
 /** Activity 2: totalSentiment()
   * Write the code to total up the sentimentVals of each word in a review.
  */
@@ -179,11 +282,26 @@ public class Review {
        // find each word
        // add in its sentimentVal
        // set the file contents to start after this word
-   
-   
 
+       Scanner inputFile = new Scanner(filename);
 
+       while (inputFile.hasNextLine())
+       {
+        String currentLine = inputFile.nextLine();
+        String[] words = currentLine.split(" ");
+        
+        for (String a: words)
+      
+        {
+        //  System.out.println(a);
+         // System.out.println(sentimentVal(a));
+          sentimentTotal += sentimentVal(a);
+        }
+        
+       }
 
+       inputFile.close();
+    
    return sentimentTotal; 
   }
 
@@ -199,6 +317,28 @@ public class Review {
     int stars = 0; // change this!
     // write if statements here
 
+    double sentimentTotal = totalSentiment(filename);
+
+    if (sentimentTotal < 0.0 )
+    {
+      stars = 0;
+    }
+    else if ( sentimentTotal > 0.0  && sentimentTotal < 5.0)
+    {
+      stars = 1;
+    }
+    else if ( sentimentTotal > 5.0 && sentimentTotal < 10.0)
+    {
+      stars = 2;
+    }
+    else if ( sentimentTotal > 10.0  && sentimentTotal < 15.0)
+    {
+      stars = 3;
+    }
+    else
+    {
+      stars = 4;
+    }
 
   
     // return number of stars
